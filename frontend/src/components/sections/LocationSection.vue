@@ -2,7 +2,6 @@
 import { computed } from 'vue';
 import { useBabyStore } from '@/stores/baby.js';
 import SectionHeading from '@/components/ui/SectionHeading.vue';
-import BaseButton from '@/components/ui/BaseButton.vue';
 
 const baby = useBabyStore();
 
@@ -10,18 +9,12 @@ const baby = useBabyStore();
 const current = {
   title: 'Kediaman Kami',
   name: 'Rumah Orang Tua',
-  address: 'Jl. Lumbu Tengah II No.112, Rawalumbu, Kota Bekasi, Jawa Barat',
   note: 'Puji Tuhan, Filo dan Mama sudah pulang dari rumah sakit dan kini berada di rumah.',
 };
 // -----------------------------------------------------------------------------
 
 const doctors = computed(() => baby.doctors);
 const place = computed(() => baby.data?.birth_place || '');
-// Peta menunjuk ke alamat kediaman saat ini.
-const query = computed(() => current.address);
-const hasLocation = computed(() => !!current.address);
-const mapsEmbed = computed(() => `https://maps.google.com/maps?q=${encodeURIComponent(query.value)}&z=16&output=embed`);
-const mapsLink = computed(() => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query.value)}`);
 </script>
 
 <template>
@@ -29,33 +22,13 @@ const mapsLink = computed(() => `https://www.google.com/maps/search/?api=1&query
     <SectionHeading eyebrow="Lokasi" :title="current.title" />
 
     <div class="mx-auto mt-10 max-w-md text-center" v-reveal>
-      <template v-if="hasLocation">
-        <p class="font-display text-2xl text-ink-soft">{{ current.name }}</p>
-        <p class="mt-2 text-sm leading-relaxed text-ink-muted">{{ current.address }}</p>
+      <p class="font-display text-2xl text-ink-soft">{{ current.name }}</p>
 
-        <div v-if="current.note" class="mx-auto mt-6 max-w-xs rounded-2xl border border-gold-soft/40 bg-ivory p-5 text-center shadow-soft">
-          <p class="text-sm leading-relaxed text-ink-muted">{{ current.note }}</p>
-        </div>
+      <div v-if="current.note" class="mx-auto mt-6 max-w-xs rounded-2xl border border-gold-soft/40 bg-ivory p-5 text-center shadow-soft">
+        <p class="text-sm leading-relaxed text-ink-muted">{{ current.note }}</p>
+      </div>
 
-        <p v-if="place" class="mt-4 text-xs italic text-ink-faint">Lahir di {{ place }}</p>
-
-        <div class="mt-6 overflow-hidden rounded-2xl border border-shell shadow-soft">
-          <iframe
-            :src="mapsEmbed"
-            class="h-56 w-full"
-            style="border:0"
-            loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade"
-            title="Peta lokasi rumah sakit"
-          ></iframe>
-        </div>
-
-        <a :href="mapsLink" target="_blank" rel="noopener" class="mt-6 inline-block">
-          <BaseButton variant="outline">Buka di Google Maps</BaseButton>
-        </a>
-      </template>
-
-      <p v-else class="text-sm text-ink-muted">Informasi lokasi belum tersedia.</p>
+      <p v-if="place" class="mt-4 text-xs italic text-ink-faint">Lahir di {{ place }}</p>
 
       <!-- Dokter yang menangani -->
       <div v-if="doctors.length" class="mt-10 border-t border-shell/70 pt-10" v-reveal="{ delay: 100 }">
