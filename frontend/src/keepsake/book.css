@@ -1,0 +1,550 @@
+/* =============================================================================
+   Buku Kenangan Filo — A5 (148 × 210 mm).
+   Warna & huruf sama dengan website (style.css + tailwind.config.js), selalu
+   versi terang. Ukuran memakai mm/pt agar hasil cetak tepat.
+   ============================================================================= */
+@page {
+  size: 148mm 210mm;
+  margin: 0;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+body {
+  background: rgb(var(--c-sand));
+  transition: none;
+}
+@media print {
+  body { background: none; }
+}
+
+.k-book {
+  /* Aksen emas website (tailwind.config.js: gold.soft / gold / gold.deep, blush) */
+  --k-gold-soft: 224 200 150;
+  --k-gold: 201 168 106;
+  --k-gold-deep: 176 141 79;
+  --k-blush: 231 211 206;
+
+  font-family: Jost, ui-sans-serif, system-ui, sans-serif;
+  font-weight: 400;
+  color: rgb(var(--c-ink));
+  font-variant-numeric: lining-nums;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+.k-book p { margin: 0; }
+.k-book figure { margin: 0; }
+
+/* ---- Halaman ------------------------------------------------------------- */
+.k-page {
+  position: relative;
+  width: 148mm;
+  height: 210mm;
+  overflow: hidden;
+  box-sizing: border-box;
+  background: rgb(var(--c-cream));
+  break-after: page;
+  page-break-after: always;
+}
+.k-page:last-child { break-after: auto; page-break-after: auto; }
+
+/* Cahaya lembut seperti layar pertama website (emas kiri atas, blush kanan bawah) */
+.k-page--glow::before,
+.k-page--glow::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+.k-page--glow::before {
+  top: -34mm;
+  left: -38mm;
+  width: 118mm;
+  height: 118mm;
+  background: radial-gradient(circle, rgb(var(--k-gold-soft) / 0.3) 0%, rgb(var(--k-gold-soft) / 0) 70%);
+}
+.k-page--glow::after {
+  right: -40mm;
+  bottom: -30mm;
+  width: 124mm;
+  height: 124mm;
+  background: radial-gradient(circle, rgb(var(--k-blush) / 0.5) 0%, rgb(var(--k-blush) / 0) 70%);
+}
+
+/* Area isi: 116 × 171 mm */
+.k-area {
+  position: absolute;
+  z-index: 1;
+  top: 18mm;
+  right: 16mm;
+  bottom: 21mm;
+  left: 16mm;
+  display: flex;
+  flex-direction: column;
+}
+.k-area--center { justify-content: center; align-items: center; text-align: center; }
+/* Baris teks rata tengah dibuat seimbang (tidak menyisakan satu kata di baris akhir). */
+.k-area--center p { text-wrap: balance; }
+.k-fit { width: 100%; display: flex; flex-direction: column; align-items: center; }
+
+.k-folio {
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  right: 0;
+  bottom: 10mm;
+  text-align: center;
+  font-size: 7pt;
+  letter-spacing: 0.24em;
+  color: rgb(var(--c-ink-faint));
+}
+
+@media screen {
+  .k-book { padding: 8mm 0 1mm; }
+  .k-page { margin: 0 auto 8mm; box-shadow: 0 1.5mm 6mm rgb(0 0 0 / 0.18); }
+}
+
+/* ---- Tipografi ----------------------------------------------------------- */
+.k-eyebrow {
+  font-size: 6.5pt;
+  line-height: 1.5;
+  letter-spacing: 0.32em;
+  padding-left: 0.32em; /* huruf berjarak tetap di tengah */
+  text-transform: uppercase;
+  color: rgb(var(--k-gold-deep));
+}
+.k-title {
+  margin-top: 2.4mm !important;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 500;
+  font-size: 22pt;
+  line-height: 1.12;
+  color: rgb(var(--c-ink-soft));
+  text-align: center;
+}
+.k-head { width: 100%; text-align: center; padding-bottom: 6mm; }
+.k-head__sub {
+  margin-top: 1.8mm !important;
+  font-size: 7.5pt;
+  color: rgb(var(--c-ink-muted));
+}
+.k-text {
+  font-size: 9.5pt;
+  line-height: 1.62;
+  color: rgb(var(--c-ink-muted));
+}
+.k-small {
+  font-size: 6pt;
+  line-height: 1.5;
+  letter-spacing: 0.25em;
+  padding-left: 0.25em;
+  text-transform: uppercase;
+  color: rgb(var(--c-ink-faint));
+}
+.k-script {
+  font-family: Parisienne, cursive;
+  font-size: 20pt;
+  line-height: 1.25;
+  color: rgb(var(--k-gold-deep));
+}
+
+/* Garis emas ✦ (SectionDivider di website) */
+.k-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2.6mm;
+  margin-top: 3.4mm;
+  color: rgb(var(--k-gold));
+}
+.k-divider::before,
+.k-divider::after {
+  content: '';
+  flex: none;
+  width: 12mm;
+  /* Tepat 1px: garis yang lebih tipis bisa dibulatkan menjadi 0 saat dicetak. */
+  height: 1px;
+}
+.k-divider::before { background: linear-gradient(to right, rgb(var(--k-gold-soft) / 0), rgb(var(--k-gold-soft))); }
+.k-divider::after { background: linear-gradient(to left, rgb(var(--k-gold-soft) / 0), rgb(var(--k-gold-soft))); }
+.k-star { display: block; width: 2mm; height: 2mm; flex: none; }
+
+/* ---- Kartu & foto -------------------------------------------------------- */
+.k-card {
+  box-sizing: border-box;
+  border: 0.25mm solid rgb(var(--c-shell));
+  border-radius: 3.6mm;
+  background: rgb(var(--c-ivory));
+}
+.k-ring {
+  box-sizing: border-box;
+  flex: none;
+  border-radius: 50%;
+  padding: 1.2mm;
+  border: 0.3mm solid rgb(var(--k-gold-soft));
+  background: rgb(var(--c-ivory));
+}
+.k-ring img,
+.k-ring .k-ring__letter {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+  background: rgb(var(--c-sand));
+}
+.k-ring__letter {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 600;
+  color: rgb(var(--k-gold-deep));
+}
+.k-photo {
+  box-sizing: border-box;
+  flex: none;
+  padding: 1mm;
+  border: 0.25mm solid rgb(var(--k-gold-soft) / 0.8);
+  border-radius: 3.4mm;
+  background: rgb(var(--c-ivory));
+}
+.k-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 2.5mm;
+  display: block;
+  background: rgb(var(--c-sand));
+}
+.k-caption {
+  margin-top: 1.8mm !important;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-style: italic;
+  font-size: 9.5pt;
+  line-height: 1.3;
+  color: rgb(var(--c-ink-muted));
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ---- 1. Sampul ----------------------------------------------------------- */
+.k-cover__frame {
+  position: absolute;
+  z-index: 1;
+  inset: 9mm;
+  border: 0.3mm solid rgb(var(--k-gold));
+  border-radius: 3mm;
+}
+.k-cover__frame::after {
+  content: '';
+  position: absolute;
+  inset: 1.6mm;
+  border: 0.2mm solid rgb(var(--k-gold-soft));
+  border-radius: 2mm;
+}
+.k-ring--cover {
+  width: 58mm;
+  height: 58mm;
+  margin-top: 8mm;
+  padding: 1.6mm;
+  border: 0.35mm solid rgb(var(--k-gold));
+  outline: 0.2mm dashed rgb(var(--k-gold-soft));
+  outline-offset: 1.6mm;
+}
+.k-cover__nick {
+  margin-top: 9mm !important;
+  font-family: Parisienne, cursive;
+  font-size: 46pt;
+  line-height: 1;
+  color: rgb(var(--k-gold-deep));
+}
+.k-cover__full {
+  margin-top: 2.4mm !important;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-style: italic;
+  font-size: 13pt;
+  line-height: 1.3;
+  color: rgb(var(--c-ink-muted));
+}
+.k-cover__date {
+  margin-top: 3.6mm !important;
+  font-size: 7.5pt;
+  letter-spacing: 0.3em;
+  padding-left: 0.3em;
+  text-transform: uppercase;
+  color: rgb(var(--c-ink-muted));
+}
+
+/* ---- 2. Pembuka ---------------------------------------------------------- */
+.k-hero__name {
+  margin-top: 4mm !important;
+  max-width: 112mm;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 600;
+  font-size: 34pt;
+  line-height: 1.04;
+  color: rgb(var(--c-ink-soft));
+}
+.k-hero__date {
+  margin-top: 6mm !important;
+  font-size: 7.5pt;
+  letter-spacing: 0.25em;
+  padding-left: 0.25em;
+  text-transform: uppercase;
+  color: rgb(var(--c-ink-muted));
+}
+
+/* ---- 3. Profil & makna nama ---------------------------------------------- */
+.k-profile__name {
+  margin-top: 6mm !important;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 500;
+  font-size: 20pt;
+  line-height: 1.15;
+  color: rgb(var(--c-ink-soft));
+}
+.k-meaning { width: 104mm; margin-top: 3.4mm; text-align: left; }
+.k-meaning__item { padding: 3.4mm 4.4mm; }
+.k-meaning__item + .k-meaning__item { margin-top: 2.8mm; }
+.k-meaning__part {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 500;
+  font-size: 14pt;
+  line-height: 1.2;
+  color: rgb(var(--k-gold-deep));
+}
+.k-meaning .k-meaning__text {
+  margin-top: 0.8mm;
+  font-size: 8.8pt;
+  line-height: 1.55;
+  color: rgb(var(--c-ink-muted));
+  text-wrap: pretty;
+}
+
+/* ---- 4. Cerita ----------------------------------------------------------- */
+.k-quote-mark { width: 7mm; height: 7mm; color: rgb(var(--k-gold-soft)); }
+.k-story {
+  margin-top: 3mm !important;
+  max-width: 100mm;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-style: italic;
+  font-size: 15pt;
+  line-height: 1.5;
+  color: rgb(var(--c-ink-soft));
+}
+.k-parents { display: flex; justify-content: center; align-items: flex-start; gap: 12mm; margin-top: 9mm; }
+.k-parent { display: flex; flex-direction: column; align-items: center; }
+.k-parent__nick {
+  margin-top: 2.6mm !important;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 13pt;
+  line-height: 1.2;
+  color: rgb(var(--c-ink-soft));
+}
+.k-parent__full {
+  margin-top: 0.6mm !important;
+  max-width: 36mm;
+  font-size: 7pt;
+  line-height: 1.4;
+  color: rgb(var(--c-ink-muted));
+}
+
+/* ---- 5. Detail kelahiran ------------------------------------------------- */
+.k-facts {
+  width: 104mm;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3.4mm;
+}
+.k-fact { padding: 4.6mm 3mm; text-align: center; }
+.k-fact--wide { grid-column: span 2; }
+.k-fact__value {
+  margin-top: 1.8mm !important;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 500;
+  font-size: 15.5pt;
+  line-height: 1.25;
+  color: rgb(var(--c-ink-soft));
+}
+
+/* ---- 6. Perjalanan (timeline) -------------------------------------------- */
+.k-tl {
+  position: relative;
+  margin: 0 0 0 3.2mm;
+  padding: 0 0 0 9mm;
+  list-style: none;
+  border-left: 0.25mm solid rgb(var(--k-gold-soft) / 0.7);
+  text-align: left;
+}
+.k-tl__item { position: relative; }
+.k-tl__item + .k-tl__item { margin-top: 7mm; }
+.k-tl__dot {
+  position: absolute;
+  top: 0;
+  left: calc(-9mm - 2.8mm - 0.125mm);
+  width: 5.6mm;
+  height: 5.6mm;
+  box-sizing: border-box;
+  border-radius: 50%;
+  border: 0.25mm solid rgb(var(--k-gold-soft));
+  background: rgb(var(--c-cream));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.k-tl__dot::after {
+  content: '';
+  width: 1.6mm;
+  height: 1.6mm;
+  border-radius: 50%;
+  background: rgb(var(--k-gold));
+}
+.k-tl__when {
+  font-size: 6pt;
+  line-height: 1.6;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgb(var(--k-gold-deep));
+}
+.k-tl__title {
+  margin-top: 0.8mm !important;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 500;
+  font-size: 15pt;
+  line-height: 1.2;
+  color: rgb(var(--c-ink-soft));
+}
+.k-tl__text {
+  margin-top: 0.8mm !important;
+  font-size: 9pt;
+  line-height: 1.55;
+  color: rgb(var(--c-ink-muted));
+}
+.k-tl__img { margin-top: 2.8mm; }
+
+/* ---- 7. Galeri ----------------------------------------------------------- */
+.k-gallery { display: flex; flex-direction: column; align-items: center; gap: 4mm; }
+.k-gallery__row { display: flex; justify-content: center; align-items: flex-start; gap: 4mm; }
+.k-gallery__item { display: flex; flex-direction: column; align-items: center; }
+.k-gallery__item .k-caption { width: 100%; }
+
+/* ---- 8. Dokter ----------------------------------------------------------- */
+.k-doctor {
+  width: 112mm;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: 5mm;
+  padding: 5mm;
+  border: 0.25mm solid rgb(var(--k-gold-soft) / 0.6);
+  border-radius: 3.6mm;
+  background: rgb(var(--c-ivory));
+  text-align: left;
+}
+.k-doctor + .k-doctor { margin-top: 5mm; }
+.k-doctor__text { min-width: 0; }
+.k-area--center .k-doctor__text p { text-wrap: pretty; }
+.k-doctor__name {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 500;
+  font-size: 14.5pt;
+  line-height: 1.2;
+  color: rgb(var(--c-ink-soft));
+}
+.k-doctor__nick {
+  margin-top: 0.8mm !important;
+  font-size: 6.2pt;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgb(var(--k-gold-deep));
+}
+.k-doctor__bio {
+  margin-top: 1.6mm !important;
+  font-size: 8.8pt;
+  line-height: 1.55;
+  color: rgb(var(--c-ink-muted));
+}
+
+/* ---- 9. Ucapan ----------------------------------------------------------- */
+.k-wish {
+  box-sizing: border-box;
+  padding: 3.6mm 4.2mm;
+  border: 0.25mm solid rgb(var(--c-shell));
+  border-radius: 3.6mm;
+  background: rgb(var(--c-ivory));
+  break-inside: avoid;
+  text-align: left;
+}
+.k-wish + .k-wish { margin-top: 3.2mm; }
+.k-wish__top { display: flex; align-items: baseline; justify-content: space-between; gap: 3mm; }
+.k-wish__name {
+  min-width: 0;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 500;
+  font-size: 12.5pt;
+  line-height: 1.2;
+  color: rgb(var(--c-ink-soft));
+  overflow-wrap: anywhere;
+}
+.k-wish__date {
+  flex: none;
+  font-size: 5.8pt;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgb(var(--c-ink-faint));
+}
+.k-wish__rel {
+  margin-top: 0.4mm !important;
+  font-size: 7.2pt;
+  line-height: 1.4;
+  color: rgb(var(--k-gold-deep));
+}
+.k-wish__msg {
+  margin-top: 1.6mm !important;
+  font-size: 9pt;
+  line-height: 1.55;
+  color: rgb(var(--c-ink-soft));
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+  text-wrap: pretty;
+}
+.k-wish--sm .k-wish__msg { font-size: 8.2pt; }
+.k-wish--xs .k-wish__msg { font-size: 7.6pt; line-height: 1.45; }
+
+/* ---- 10. Penutup --------------------------------------------------------- */
+.k-mono { width: 30mm; height: 30mm; }
+.k-mono svg { display: block; width: 100%; height: 100%; }
+.k-closing__name {
+  margin-top: 6mm !important;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 500;
+  font-size: 22pt;
+  line-height: 1.12;
+  color: rgb(var(--c-ink-soft));
+}
+
+/* Area ukur (tak terlihat) — lebar sama dengan area isi halaman */
+.k-measure {
+  position: absolute;
+  top: 0;
+  left: -400mm;
+  width: 116mm;
+  visibility: hidden;
+}
+
+/* ---- Pemberitahuan (dibuka langsung tanpa data) ------------------------- */
+.k-notice {
+  max-width: 22rem;
+  margin: 18vh auto 0;
+  padding: 0 1.5rem;
+  text-align: center;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: rgb(var(--c-ink-muted));
+}

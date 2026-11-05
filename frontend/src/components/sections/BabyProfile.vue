@@ -3,18 +3,13 @@ import { computed } from 'vue';
 import { useBabyStore } from '@/stores/baby.js';
 import SectionHeading from '@/components/ui/SectionHeading.vue';
 import SkeletonLine from '@/components/ui/SkeletonLine.vue';
- 
+import { baby as content } from '@/content/filo.js';
+
 const baby = useBabyStore();
 const data = computed(() => baby.data);
-const featured = computed(() => null); // hero portrait can be wired to a featured photo later
-// Nama lengkap khusus ditampilkan di bagian Profil (hero & counter tetap pakai nickname dari DB).
-const profilePhoto = '/filo_2.jpg';  // foto profil Si Kecil Kami
-const fullName = 'Filomena Lioranda Tambing';
-const nameMeaning = [
-  { part: 'Filomena', meaning: 'Berasal dari bahasa Yunani (Philomena), artinya "yang dicintai".' },
-  { part: 'Lioranda', meaning: 'Gabungan dari Liora (Ibrani) yang berarti "pembawa terang", dan "Anda" yang berarti Anak Andi dan Nada.' },
-  { part: 'Tambing', meaning: 'Merupakan nama keluarga.' },
-];
+// Nama lengkap, foto profil & makna nama ada di src/content/filo.js
+// (dipakai juga oleh Buku Kenangan).
+const { profilePhoto, fullName, nameMeaning } = content;
 </script>
  
 <template>

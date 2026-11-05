@@ -3,6 +3,7 @@ import { computed } from 'vue';
 import { useBabyStore } from '@/stores/baby.js';
 import SectionHeading from '@/components/ui/SectionHeading.vue';
 import SkeletonLine from '@/components/ui/SkeletonLine.vue';
+import { storyFallback } from '@/content/filo.js';
 
 const baby = useBabyStore();
 const parents = computed(() => baby.familyParents);
@@ -24,7 +25,7 @@ const story = computed(() => baby.data?.description || '');
           <path d="M7 7h4v4c0 2.2-1.8 4-4 4v-2c1.1 0 2-.9 2-2H7V7zm8 0h4v4c0 2.2-1.8 4-4 4v-2c1.1 0 2-.9 2-2h-2V7z" />
         </svg>
         <p class="font-display text-xl italic leading-relaxed text-ink-soft" v-reveal>
-          {{ story || 'Setiap doa yang terucap, setiap hari yang dinanti, kini berwujud dalam dirimu. Selamat datang, anakku.' }}
+          {{ story || storyFallback }}
         </p>
 
         <div v-if="parents.length" class="mt-10" v-reveal="{ delay: 120 }">

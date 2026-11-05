@@ -13,6 +13,7 @@ import giftRoutes from './gift.routes.js';
 import wishRoutes from './wish.routes.js';
 import visitorRoutes from './visitor.routes.js';
 import statsRoutes from './stats.routes.js';
+import keepsakeRoutes from './keepsake.routes.js';
 
 const router = Router();
 
@@ -29,5 +30,8 @@ router.use('/stats', attachBaby, statsRoutes);
 // Mixed read/write endpoints (attachBaby applied inside, per method)
 router.use('/wishes', wishRoutes);
 router.use('/visitor', visitorRoutes);
+
+// Buku Kenangan (PDF) untuk orang tua — dibuka dengan PIN
+router.use('/keepsake', keepsakeRoutes);
 
 export default router;

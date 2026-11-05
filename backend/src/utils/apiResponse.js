@@ -16,6 +16,12 @@ function deepSnake(value) {
   return value;
 }
 
+// Model Sequelize / objek biasa -> plain object dengan key snake_case
+// (bentuk yang sama persis dengan isi `data` di sendSuccess).
+export function toSnakeJson(value) {
+  return deepSnake(JSON.parse(JSON.stringify(value)));
+}
+
 export function sendSuccess(res, { statusCode = 200, message = 'OK', data = undefined, meta = undefined } = {}) {
   const body = { success: true, message };
   // Model Sequelize -> plain object dulu (lewat toJSON), lalu key -> snake_case.

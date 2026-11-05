@@ -19,6 +19,8 @@ app.use(compression());
 app.use(cors({ origin: config.cors.origin }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+// Token Buku Kenangan (?token=...) tidak ikut tercatat di log akses.
+morgan.token('url', (req) => (req.originalUrl || req.url).replace(/([?&]token=)[^&]*/gi, '$1[hidden]'));
 app.use(morgan(config.env === 'production' ? 'combined' : 'dev'));
 
 app.get('/', (req, res) => res.json({ success: true, message: 'Filo API is running' }));

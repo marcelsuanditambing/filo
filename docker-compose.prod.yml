@@ -97,6 +97,9 @@ services:
       CORS_ORIGIN: ${CORS_ORIGIN}
       IP_HASH_SALT: ${IP_HASH_SALT}
       DEFAULT_BABY_SLUG: ${DEFAULT_BABY_SLUG:-filomena}
+      # Buku Kenangan (PDF): PIN orang tua dari .env. Kosong = fitur mati.
+      KEEPSAKE_PIN: ${KEEPSAKE_PIN:-}
+      KEEPSAKE_RENDER_URL: http://frontend
     depends_on:
       mariadb:
         condition: service_healthy
@@ -111,7 +114,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 512m
+          memory: 1g   # Chromium (pembuat PDF Buku Kenangan) butuh RAM sesaat
 
   # ---------------------------------------------------------------------------
   frontend:

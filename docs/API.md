@@ -41,6 +41,20 @@ Status codes: 200 OK, 201 Created, 404 Not Found, 409 Conflict,
 | GET    | `/api/wishes`   | Approved wishes                  | paginate; search `?q=`; newest first |
 | POST   | `/api/wishes`   | Submit a wish (status: pending)  | body below |
 | POST   | `/api/visitor`  | Record a page visit              | body below |
+| GET    | `/api/keepsake/status`   | Is the keepsake book enabled? | `{ enabled }` — true when `KEEPSAKE_PIN` is set |
+| POST   | `/api/keepsake/unlock`   | Check the parents' PIN        | body `{ "pin": "…" }` → `{ token, expires_at }` (30 days) |
+| GET    | `/api/keepsake/book.pdf` | Download the A5 keepsake PDF  | `Authorization: Bearer <token>` or `?token=` |
+
+### Keepsake book (Buku Kenangan)
+- `POST /api/keepsake/unlock`: wrong PIN → `401 { data: { attempts_left } }`;
+  5 wrong tries per IP (or 30 across all IPs) → `429 { data: { retry_after_seconds } }`
+  locked for 15 minutes.
+- The token is an HMAC signed with a key derived from the PIN, so changing
+  `KEEPSAKE_PIN` invalidates every device at once.
+- `GET /api/keepsake/book.pdf` renders `keepsake.html` from the frontend with
+  Chromium and returns `Buku-Kenangan-Filomena.pdf`. The same PDF is reused for
+  10 minutes while the data is unchanged; renders run one at a time.
+- Disabled (`KEEPSAKE_PIN` empty) → `unlock` and `book.pdf` return 404.
 
 ### POST /api/wishes
 ```json

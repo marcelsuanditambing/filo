@@ -66,6 +66,10 @@ services:
       DB_USER: ${DB_USER}
       DB_PASSWORD: ${DB_PASSWORD}
       CORS_ORIGIN: ${CORS_ORIGIN:-*}
+      # Buku Kenangan (PDF): PIN orang tua dari .env. Kosong = fitur mati.
+      KEEPSAKE_PIN: ${KEEPSAKE_PIN:-}
+      # Chromium di backend membuka halaman buku langsung dari container frontend.
+      KEEPSAKE_RENDER_URL: http://frontend
     depends_on:
       mariadb:
         condition: service_healthy

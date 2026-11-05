@@ -174,6 +174,36 @@ cd frontend && cp .env.example .env && npm install && npm run dev
 Lihat [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md) untuk langkah lengkap termasuk
 catatan keamanan produksi (HTTPS, password, membatasi akses phpMyAdmin).
 
+## Buku Kenangan (PDF untuk Papa & Mama)
+
+Di footer ada tautan kecil **Untuk Papa & Mama 🔒** → masukkan PIN →
+**Unduh buku (PDF)**. Server membuat buku A5 saat tombol diklik, jadi ucapan
+terbaru selalu ikut dan buku bisa diunduh ulang kapan saja.
+
+Isi buku: sampul → pembuka → profil & makna nama → cerita → detail kelahiran
+(termasuk rumah sakit tempat lahir) → perjalanan (timeline) → galeri → dokter →
+semua ucapan yang tampil di website (dari yang paling awal) → penutup.
+Sengaja **tidak** dimuat: lokasi/alamat rumah, statistik, QR code, dan domain.
+
+- PIN ada di file `.env` di server: `KEEPSAKE_PIN=...`, **tidak** ada di GitHub.
+- Ganti PIN: ubah `.env`, lalu `docker compose up -d backend`. Semua HP yang
+  sudah terbuka otomatis terkunci lagi.
+- Matikan fitur: kosongkan `KEEPSAKE_PIN` (tautan di footer hilang).
+- Salah PIN 5× → dikunci 15 menit. HP yang berhasil membuka diingat 30 hari.
+- Foto sampul = foto galeri yang `is_featured = 1`. Bisa juga diatur di
+  `frontend/src/content/filo.js` (`keepsake.coverPhoto`).
+- Teks tetap (nama lengkap, makna nama, foto profil, teks footer) ada di
+  `frontend/src/content/filo.js`, dipakai website **dan** buku sekaligus.
+- Foto yang file-nya tidak ditemukan otomatis dilewati (tidak tampil rusak).
+- **Sebelum website diturunkan**, unduh versi final buku dan simpan di beberapa
+  tempat (HP, Google Drive, laptop). Setelah server mati, buku tidak bisa
+  dibuat lagi.
+
+Cara kerja singkat: backend (Chromium + puppeteer-core) membuka
+`http://frontend/keepsake.html`, menyuntikkan data dari database, lalu mencetak
+halaman itu menjadi PDF. Kode: `backend/src/services/keepsake/`,
+`frontend/src/keepsake/`, `frontend/src/components/layout/KeepsakeDialog.vue`.
+
 ## Lisensi
 
 Privat / keluarga. Sesuaikan bila perlu.
