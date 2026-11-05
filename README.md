@@ -190,8 +190,9 @@ Sengaja **tidak** dimuat: lokasi/alamat rumah, statistik, QR code, dan domain.
   sudah terbuka otomatis terkunci lagi.
 - Matikan fitur: kosongkan `KEEPSAKE_PIN` (tautan di footer hilang).
 - Salah PIN 5× → dikunci 15 menit. HP yang berhasil membuka diingat 30 hari.
-- Foto sampul = foto galeri yang `is_featured = 1`. Bisa juga diatur di
-  `frontend/src/content/filo.js` (`keepsake.coverPhoto`).
+- Foto sampul = `frontend/public/filo_sampul.jpg` (potongan wajah dari
+  `filo_3.jpg`), diatur di `frontend/src/content/filo.js` (`keepsake.coverPhoto`).
+  Isi `null` untuk memakai foto galeri yang `is_featured = 1`.
 - Teks tetap (nama lengkap, makna nama, foto profil, teks footer) ada di
   `frontend/src/content/filo.js`, dipakai website **dan** buku sekaligus.
 - Foto yang file-nya tidak ditemukan otomatis dilewati (tidak tampil rusak).

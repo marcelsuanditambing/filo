@@ -29,9 +29,10 @@ export const footer = {
 
 // ---- Buku Kenangan ----------------------------------------------------------
 export const keepsake = {
-  // Foto sampul. null = foto utama (is_featured) di galeri; bila tidak ada,
-  // foto galeri pertama, lalu foto profil. Bisa diisi path, mis. '/filo_2.jpg'.
-  coverPhoto: null,
+  // Foto sampul: potongan persegi wajah Filo dari /filo_3.jpg (folder
+  // frontend/public). null = foto utama (is_featured) di galeri. Bila file
+  // tidak ditemukan, otomatis memakai foto galeri lalu foto profil.
+  coverPhoto: '/filo_sampul.jpg',
   fileName: 'Buku-Kenangan-Filomena.pdf',
   link: 'Untuk Papa & Mama',
 };
